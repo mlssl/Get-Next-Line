@@ -6,40 +6,41 @@
 /*   By: mlaussel <mlaussel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 10:45:15 by mlaussel          #+#    #+#             */
-/*   Updated: 2024/11/26 16:39:06 by mlaussel         ###   ########.fr       */
+/*   Updated: 2024/11/26 16:50:50 by mlaussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-//IL FAUT LIRRE DE BUFFER_SIZE EN BUFFER_SIZE ET LE STOCKER.
+
+// IL FAUT LIRRE DE BUFFER_SIZE EN BUFFER_SIZE ET LE STOCKER.
 // ENSUITE ON CHERCHE DANS LE STOCK SI Y A \N
 
-char	*ft_extract_line(char *buffer, char	*rest)
+char	*ft_extract_bloc(char *buffer, char *rest)
 {
-	int	i;
-	char	*line;
+	int		i;
+	char	*bloc;
 
 	i = 0;
-	while (buffer[i] != '\n' && buffer[i] != '\0')
+	while (buffer[i] != '\n' || buffer[i] != '\0' || i <= BUFFER_SIZE)
 		i++;
 	if (buffer[i] == '\n')
+	{
 		i++;
-	line = ft_substr(buffer, 0, i);
-	if (line == NULL)
-		return (NULL);
-	rest = ft_substr(buffer, i, ft_strlen(buffer) - ft_strlen(line));
-	return (line);
+		bloc = ft_substr(buffer, 0, i);
+		if (bloc == NULL)
+			return (NULL);
+	}
+	rest = ft_substr(buffer, i, ft_strlen(buffer) - ft_strlen(bloc));
+	return (rest);
 }
 
 char	*get_next_line(int fd)
 {
 	char	*buffer;
-	char	*line;
 	int		index;
 	int		check_read;
 	char	*rest;
 
-	count = 0;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
@@ -53,8 +54,7 @@ char	*get_next_line(int fd)
 	buffer[check_read] = '\0';
 	while (buffer != '\0')
 	{
-		line = ft_extract_line(buffer, &index, rest);
-		buffer = (buffer + index + 1);
+		rest = ft_extract_bloc(buffer, rest);
 	}
 	free(buffer);
 	return ();
