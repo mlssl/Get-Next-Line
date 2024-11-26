@@ -6,35 +6,38 @@
 /*   By: mlaussel <mlaussel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 10:45:15 by mlaussel          #+#    #+#             */
-/*   Updated: 2024/11/26 15:53:57 by mlaussel         ###   ########.fr       */
+/*   Updated: 2024/11/26 16:39:06 by mlaussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+//IL FAUT LIRRE DE BUFFER_SIZE EN BUFFER_SIZE ET LE STOCKER.
+// ENSUITE ON CHERCHE DANS LE STOCK SI Y A \N
 
-/*extrait la ligne jusqu`au \n et la renvoie*/
-char	*ft_extract_line(char *buffer, int *index)
+char	*ft_extract_line(char *buffer, char	*rest)
 {
+	int	i;
 	char	*line;
 
-	while (buffer[*index] != '\n' && buffer[*index] != '\0')
-		(*index)++;
-	if (buffer[index] == '\n')
-		(*index)++;
-	line = ft_substr(buffer, 0, *index);
+	i = 0;
+	while (buffer[i] != '\n' && buffer[i] != '\0')
+		i++;
+	if (buffer[i] == '\n')
+		i++;
+	line = ft_substr(buffer, 0, i);
 	if (line == NULL)
 		return (NULL);
+	rest = ft_substr(buffer, i, ft_strlen(buffer) - ft_strlen(line));
 	return (line);
 }
 
-/*lis le fichier et le stock dans un buffer*/
 char	*get_next_line(int fd)
 {
 	char	*buffer;
 	char	*line;
 	int		index;
-	int	count;
-	int	check_read;
+	int		check_read;
+	char	*rest;
 
 	count = 0;
 	if (fd < 0 || BUFFER_SIZE <= 0)
@@ -42,16 +45,19 @@ char	*get_next_line(int fd)
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (buffer == NULL)
 		return (NULL);
-	if (read(fd, buffer, BUFFER_SIZE) < 0)
-			return (-1);
+	check_read = read(fd, buffer, BUFFER_SIZE);
+	if (check_read < 0)
+		return (-1);
+	if (check_read = 0)
+		return (buffer); // a changer car je ne sais pas pour le moment
+	buffer[check_read] = '\0';
 	while (buffer != '\0')
 	{
-		line = ft_extract_line(buffer, &index);
+		line = ft_extract_line(buffer, &index, rest);
 		buffer = (buffer + index + 1);
-		count++;
 	}
 	free(buffer);
-	return (line);
+	return ();
 }
 
 /*
@@ -72,4 +78,4 @@ Le nombre d'octets réellement lus (peut être inférieur à count).
 */
 
 // substr renvoie une sous chaine en prenant
-//le start d`une chaine et le nombre de commentaire
+// le start d`une chaine et le nombre de commentaire
