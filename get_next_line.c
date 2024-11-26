@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlaussel <mlaussel@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: mathildelaussel <mathildelaussel@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 10:45:15 by mlaussel          #+#    #+#             */
-/*   Updated: 2024/11/26 16:50:50 by mlaussel         ###   ########.fr       */
+/*   Updated: 2024/11/26 20:48:32 by mathildelau      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_extract_bloc(char *buffer, char *rest)
 	char	*bloc;
 
 	i = 0;
-	while (buffer[i] != '\n' || buffer[i] != '\0' || i <= BUFFER_SIZE)
+	while (buffer[i] != '\n' && buffer[i] != '\0' && i <= BUFFER_SIZE)
 		i++;
 	if (buffer[i] == '\n')
 	{
@@ -29,28 +29,39 @@ char	*ft_extract_bloc(char *buffer, char *rest)
 		bloc = ft_substr(buffer, 0, i);
 		if (bloc == NULL)
 			return (NULL);
+		rest = ft_substr(buffer, i, ft_strlen(buffer) - ft_strlen(bloc));
 	}
-	rest = ft_substr(buffer, i, ft_strlen(buffer) - ft_strlen(bloc));
-	return (rest);
+	else
+	{
+		
+	}
+	return (bloc);
 }
 
 char	*get_next_line(int fd)
 {
 	char	*buffer;
-	int		index;
-	int		check_read;
+	ssize_t		check_read;
 	char	*rest;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
+		
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (buffer == NULL)
 		return (NULL);
+		
 	check_read = read(fd, buffer, BUFFER_SIZE);
 	if (check_read < 0)
-		return (-1);
-	if (check_read = 0)
-		return (buffer); // a changer car je ne sais pas pour le moment
+	{
+		free(buffer);
+		return (NULL);
+	}
+	if (check_read == 0)
+	{
+		free(buffer);
+		return (NULL);
+	}
 	buffer[check_read] = '\0';
 	while (buffer != '\0')
 	{
