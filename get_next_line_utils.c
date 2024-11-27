@@ -6,7 +6,7 @@
 /*   By: mlaussel <mlaussel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:14:48 by mlaussel          #+#    #+#             */
-/*   Updated: 2024/11/26 15:21:53 by mlaussel         ###   ########.fr       */
+/*   Updated: 2024/11/27 14:54:17 by mlaussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ size_t	ft_strlen(char *str)
 	return (len);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	char			*dest;
 	size_t			i;
@@ -31,7 +31,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	i = 0;
 	if (s == NULL)
 		return (NULL);
-	len_s = my_strlen(s);
+	len_s = ft_strlen(s);
 	if (start > len_s)
 		return (ft_strdup(""));
 	if (len > len_s - start)
@@ -50,7 +50,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 }
 
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*dest;
 	int		i;
@@ -73,6 +73,26 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		dest[i] = s2[j];
 		i++;
 		j++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+char	*ft_strdup(char *s)
+{
+	char	*dest;
+	int		i;
+	size_t	len;
+
+	i = 0;
+	len = ft_strlen(s);
+	dest = malloc(sizeof(char) * (len + 1));
+	if (dest == NULL)
+		return (NULL);
+	while (s[i] != '\0')
+	{
+		dest[i] = s[i];
+		i++;
 	}
 	dest[i] = '\0';
 	return (dest);

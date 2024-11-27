@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathildelaussel <mathildelaussel@studen    +#+  +:+       +#+        */
+/*   By: mlaussel <mlaussel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 10:45:15 by mlaussel          #+#    #+#             */
-/*   Updated: 2024/11/26 20:48:32 by mathildelau      ###   ########.fr       */
+/*   Updated: 2024/11/27 14:59:55 by mlaussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,78 +15,104 @@
 // IL FAUT LIRRE DE BUFFER_SIZE EN BUFFER_SIZE ET LE STOCKER.
 // ENSUITE ON CHERCHE DANS LE STOCK SI Y A \N
 
-char	*ft_extract_bloc(char *buffer, char *rest)
+static int	ft_find_end_line(char *str)
 {
-	int		i;
-	char	*bloc;
+	int	i;
 
 	i = 0;
-	while (buffer[i] != '\n' && buffer[i] != '\0' && i <= BUFFER_SIZE)
-		i++;
-	if (buffer[i] == '\n')
+	while (i <= BUFFER_SIZE && str[i] != '\0')
 	{
+		if (str[i] == '\n')
+			return (i);
 		i++;
-		bloc = ft_substr(buffer, 0, i);
-		if (bloc == NULL)
-			return (NULL);
-		rest = ft_substr(buffer, i, ft_strlen(buffer) - ft_strlen(bloc));
 	}
-	else
-	{
-		
-	}
-	return (bloc);
+	return (-1);
 }
+
+static char	*ft_extract_line(char **rest)
+{
+	int		i;
+	char	*line;
+	char	*buf;
+
+	i = 0;
+	while (rest[i] != '\n' && rest[i] != '\0' && i <= BUFFER_SIZE)
+		i++;
+	if (rest[i] == '\n') // ligne se terminant par /n
+	{
+		line = ft_substr(rest, 0, i + 1);
+		if (line == NULL)
+			return (NULL);
+		buf = ft_strdup(*rest + i + 1); // Reste après '\n'
+		if (buf == NULL)
+			return (NULL);
+		free(*rest);
+		*rest = buf;
+		return (line);
+	}
+	if (rest[i] == '\0') // fin du fichier
+	{
+		free(rest);
+		rest = NULL;
+		return (NULL);
+	}
+	line = ft_strdup(rest); // Copie ce qui reste sinon
+	return (line);
+}
+// rest = chaine de i +1 (car on ne veut pas le /n) a la taille de la chaine - i
 
 char	*get_next_line(int fd)
 {
-	char	*buffer;
+	char		*buffer;
 	ssize_t		check_read;
-	char	*rest;
+	static char	*rest;
+	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0) // verifie si les conitions sont ok
 		return (NULL);
-		
-	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1)); // prepare le tempon a recevoir BUFFER_SIZE octetc
 	if (buffer == NULL)
 		return (NULL);
-		
-	check_read = read(fd, buffer, BUFFER_SIZE);
-	if (check_read < 0)
+	check_read = 1;
+	while (check_read > 0)
 	{
-		free(buffer);
+		check_read = read(fd, buffer, BUFFER_SIZE);// verifie si la lecture n'a pas eu d'erreurs
+		if (check_read < 0)
+		{
+			free(buffer);
+			return (NULL);
+		}
+		buffer[check_read + 1] = '\0'; // ferme correctement la chaine buffer. +1 pour arriver au \0
+		rest = ft_strjoin(rest, buffer);
+		if (rest == NULL)
+		{
+			return (NULL);
+			free (buffer);
+		}
+	}
+	line = ft_extract_line(rest); // extrait la line, elle sera ecrite si on a un /n, sinon
+	if (line = NULL)
 		return (NULL);
-	}
-	if (check_read == 0)
-	{
-		free(buffer);
-		return (NULL);
-	}
-	buffer[check_read] = '\0';
-	while (buffer != '\0')
-	{
-		rest = ft_extract_bloc(buffer, rest);
-	}
 	free(buffer);
-	return ();
+	return (line);
 }
 
-/*
-ssize_t version signe de size_t
-ssize_t	read(int fd, void *buf, size_t count);
-Paramètres :
+#include <fcntl.h>
+#include <stdio.h>
 
-fd : Le descripteur de fichier (file descriptor) qui
-identifie la source d'entrée (obtenu, par exemple,
-avec open ou des descripteurs prédéfinis comme STDIN_FILENO).
-buf : Un pointeur vers un buffer (tableau) où les données lues seront stockées.
-count : Le nombre maximal d'octets à lire.
-Valeur de retour :
+int	main(void)
+{
+	int		fd;
+	char	*line;
 
-Le nombre d'octets réellement lus (peut être inférieur à count).
-0 si la fin du fichier (EOF) est atteinte.
--1 en cas d'erreur, avec la variable globale errno définissant l'erreur.
-*/
-
-// substr renvoie une sous chaine en prenant
-// le start d`une chaine et le nombre de commentaire
+	fd = open("test.txt", O_RDONLY);
+	if (fd < 0)
+		return (1);
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		printf("%s", line);
+		free(line);
+	}
+	close(fd);
+	return (0);
+}

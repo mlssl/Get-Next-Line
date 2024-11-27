@@ -6,7 +6,7 @@
 /*   By: mlaussel <mlaussel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 10:36:30 by mlaussel          #+#    #+#             */
-/*   Updated: 2024/11/26 16:37:24 by mlaussel         ###   ########.fr       */
+/*   Updated: 2024/11/27 14:53:36 by mlaussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,8 @@ typedef long	ssize_t;
 
 char			*get_next_line(int fd);
 size_t			ft_strlen(char *str);
-char			*ft_strjoin(char const *s1, char const *s2);
+char			*ft_strjoin(char *s1, char *s2);
+char			*ft_strdup(char *s);
+char			*ft_substr(char *s, unsigned int start, size_t len);
+
 #endif
