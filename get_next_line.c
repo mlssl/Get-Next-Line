@@ -6,7 +6,7 @@
 /*   By: mlaussel <mlaussel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 10:45:15 by mlaussel          #+#    #+#             */
-/*   Updated: 2024/11/27 14:59:55 by mlaussel         ###   ########.fr       */
+/*   Updated: 2024/11/27 15:58:01 by mlaussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*ft_extract_line(char **rest)
 		i++;
 	if (rest[i] == '\n') // ligne se terminant par /n
 	{
-		line = ft_substr(rest, 0, i + 1);
+		line = ft_substr(rest, 0, i + 1); //+1 pour avoir le \n
 		if (line == NULL)
 			return (NULL);
 		buf = ft_strdup(*rest + i + 1); // Reste après '\n'
@@ -50,7 +50,7 @@ static char	*ft_extract_line(char **rest)
 		*rest = buf;
 		return (line);
 	}
-	if (rest[i] == '\0') // fin du fichier
+	if (rest[i] == '\0') // fin du fichier NON PAS FORCEMENT
 	{
 		free(rest);
 		rest = NULL;
@@ -59,7 +59,7 @@ static char	*ft_extract_line(char **rest)
 	line = ft_strdup(rest); // Copie ce qui reste sinon
 	return (line);
 }
-// rest = chaine de i +1 (car on ne veut pas le /n) a la taille de la chaine - i
+// rest = chaine de i + 1 (car on ne veut pas le /n) a la taille de la chaine - i
 
 char	*get_next_line(int fd)
 {
@@ -83,7 +83,7 @@ char	*get_next_line(int fd)
 			return (NULL);
 		}
 		buffer[check_read + 1] = '\0'; // ferme correctement la chaine buffer. +1 pour arriver au \0
-		rest = ft_strjoin(rest, buffer);
+		rest = ft_strjoin(rest, buffer); // met la suite de la lecture ??
 		if (rest == NULL)
 		{
 			return (NULL);
@@ -96,6 +96,8 @@ char	*get_next_line(int fd)
 	free(buffer);
 	return (line);
 }
+
+//CHECK CE QUE FANNY A ENVOYE
 
 #include <fcntl.h>
 #include <stdio.h>
