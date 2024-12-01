@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlaussel <mlaussel@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: mathildelaussel <mathildelaussel@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:14:48 by mlaussel          #+#    #+#             */
-/*   Updated: 2024/11/27 14:54:17 by mlaussel         ###   ########.fr       */
+/*   Updated: 2024/12/01 15:28:43 by mathildelau      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
