@@ -6,7 +6,7 @@
 /*   By: mlaussel <mlaussel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 10:45:15 by mlaussel          #+#    #+#             */
-/*   Updated: 2024/12/02 13:32:24 by mlaussel         ###   ########.fr       */
+/*   Updated: 2024/12/02 14:56:14 by mlaussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,24 @@ static char	*ft_extract_rest(char *rest, char *buffer, int fd)
 	char	*temp;
 
 	check_read = 1;
-	while (check_read >= 0)
+	while (check_read > 0)
 	{
 		check_read = read(fd, buffer, BUFFER_SIZE);
 		if (check_read < 0)
-			return (free(buffer), NULL);
+			return (NULL);
+		if (check_read == 0)
+			break ;
 		buffer[check_read] = '\0';
 		if (rest == NULL)
 			rest = ft_strdup("");
 		temp = rest;
 		rest = ft_strjoin(rest, buffer);
 		free(temp);
-		if (rest == NULL)
-			return (free(buffer), NULL);
+		temp = NULL;
 		if (ft_find_end_line(rest) >= 0)
 			break ;
 	}
+
 	return (rest);
 }
 
@@ -101,7 +103,7 @@ char	*get_next_line(int fd)
 	if (buffer == NULL)
 		return (NULL);
 	rest = ft_extract_rest(rest, buffer, fd);
-	//free(buffer);
+	free (buffer);
 	line = ft_extract_line(&rest);
 	return (line);
 }
