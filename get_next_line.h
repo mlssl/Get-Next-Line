@@ -6,7 +6,7 @@
 /*   By: mlaussel <mlaussel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 10:36:30 by mlaussel          #+#    #+#             */
-/*   Updated: 2024/12/02 10:41:03 by mlaussel         ###   ########.fr       */
+/*   Updated: 2024/12/02 13:25:17 by mlaussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@
 # include <stdlib.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 1
 
 # endif
-
-typedef long	ssize_t;
 
 char			*get_next_line(int fd);
 size_t			ft_strlen(char *str);

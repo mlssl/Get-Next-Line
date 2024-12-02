@@ -6,7 +6,7 @@
 /*   By: mlaussel <mlaussel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 12:14:48 by mlaussel          #+#    #+#             */
-/*   Updated: 2024/12/02 11:11:48 by mlaussel         ###   ########.fr       */
+/*   Updated: 2024/12/02 13:16:37 by mlaussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	return (dest);
 }
 
-
 char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*dest;
@@ -72,9 +71,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	while (s2[j] != '\0')
 	{
-		dest[i] = s2[j];
-		i++;
-		j++;
+		dest[i++] = s2[j++];
 	}
 	dest[i] = '\0';
 	return (dest);
