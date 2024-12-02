@@ -6,7 +6,7 @@
 /*   By: mlaussel <mlaussel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 10:45:15 by mlaussel          #+#    #+#             */
-/*   Updated: 2024/12/02 14:56:14 by mlaussel         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:50:58 by mlaussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static char	*ft_extract_rest(char *rest, char *buffer, int fd)
 		if (ft_find_end_line(rest) >= 0)
 			break ;
 	}
-
 	return (rest);
 }
 
