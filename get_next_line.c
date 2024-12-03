@@ -6,7 +6,7 @@
 /*   By: mlaussel <mlaussel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 10:45:15 by mlaussel          #+#    #+#             */
-/*   Updated: 2024/12/02 15:50:58 by mlaussel         ###   ########.fr       */
+/*   Updated: 2024/12/03 10:33:49 by mlaussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,6 @@ static int	ft_find_end_line(char *str)
 	return (-1);
 }
 
-char	*ft_free(char *str)
-{
-	if (str != NULL)
-		free(str);
-	return (NULL);
-}
-
 static char	*ft_extract_rest(char *rest, char *buffer, int fd)
 {
 	int		check_read;
@@ -47,7 +40,7 @@ static char	*ft_extract_rest(char *rest, char *buffer, int fd)
 	while (check_read > 0)
 	{
 		check_read = read(fd, buffer, BUFFER_SIZE);
-		if (check_read < 0)
+		if (check_read == -1)
 			return (NULL);
 		if (check_read == 0)
 			break ;
@@ -70,7 +63,7 @@ static char	*ft_extract_line(char **rest)
 	char	*line;
 	char	*buf;
 
-	if (*rest == NULL)
+	if (*rest == NULL || **rest == '\0')
 		return (NULL);
 	i = ft_find_end_line(*rest);
 	if (i >= 0)
@@ -79,15 +72,15 @@ static char	*ft_extract_line(char **rest)
 		buf = ft_substr(*rest, i + 1, ft_strlen(*rest) - i);
 		free(*rest);
 		*rest = buf;
+		if (**rest == '\0')
+		{
+			free(*rest);
+			*rest = NULL;
+		}
 		return (line);
 	}
 	else
-	{
-		line = ft_strdup(*rest);
-		free(*rest);
-		*rest = NULL;
-		return (line);
-	}
+		return (line = ft_strdup(*rest), free(*rest), *rest = NULL, line);
 }
 
 char	*get_next_line(int fd)
@@ -102,12 +95,12 @@ char	*get_next_line(int fd)
 	if (buffer == NULL)
 		return (NULL);
 	rest = ft_extract_rest(rest, buffer, fd);
-	free (buffer);
+	free(buffer);
 	line = ft_extract_line(&rest);
 	return (line);
 }
 
-//CHECK CE QUE FANNY A ENVOYE
+// CHECK CE QUE FANNY A ENVOYE
 
 // int	main(void)
 // {
@@ -120,17 +113,11 @@ char	*get_next_line(int fd)
 // 		perror("Error opening file");
 // 		return (1);
 // 	}
-
-// 	// Lire et afficher chaque ligne du fichier
-// 	// while ((line = get_next_line(fd)) != NULL)
-// 	// {
-// 		line = get_next_line(fd);
-// 		printf("%s", line);
-// 		line = get_next_line(fd);
-// 		printf("%s", line);
-// 		free(line); // Libérer la mémoire allouée pour chaque ligne
-
-// 	// }
+// 	line = get_next_line(fd);
+// 	printf("%s", line);
+// 	line = get_next_line(fd);
+// 	printf("%s", line);
+// 	free(line); // Libérer la mémoire allouée pour chaque ligne
 // 	close(fd); // Fermer le fichier
 // 	return (0);
 // }

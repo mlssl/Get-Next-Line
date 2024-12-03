@@ -6,7 +6,7 @@
 /*   By: mlaussel <mlaussel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 10:36:30 by mlaussel          #+#    #+#             */
-/*   Updated: 2024/12/02 14:04:43 by mlaussel         ###   ########.fr       */
+/*   Updated: 2024/12/03 09:45:40 by mlaussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdlib.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 4096
+#  define BUFFER_SIZE 10
 
 # endif
 
