@@ -6,7 +6,7 @@
 /*   By: mlaussel <mlaussel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 10:45:15 by mlaussel          #+#    #+#             */
-/*   Updated: 2024/12/03 10:33:49 by mlaussel         ###   ########.fr       */
+/*   Updated: 2024/12/03 10:43:00 by mlaussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ char	*get_next_line(int fd)
 	line = ft_extract_line(&rest);
 	return (line);
 }
-
-// CHECK CE QUE FANNY A ENVOYE
 
 // int	main(void)
 // {
