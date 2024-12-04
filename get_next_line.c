@@ -6,14 +6,11 @@
 /*   By: mlaussel <mlaussel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 10:45:15 by mlaussel          #+#    #+#             */
-/*   Updated: 2024/12/03 10:43:00 by mlaussel         ###   ########.fr       */
+/*   Updated: 2024/12/04 10:45:10 by mlaussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <fcntl.h>
-#include <stdio.h>
-#include <unistd.h>
 
 static int	ft_find_end_line(char *str)
 {
@@ -99,23 +96,3 @@ char	*get_next_line(int fd)
 	line = ft_extract_line(&rest);
 	return (line);
 }
-
-// int	main(void)
-// {
-// 	int		fd;
-// 	char	*line;
-
-// 	fd = open("test.txt", O_RDONLY); // Ouvrir le fichier
-// 	if (fd < 0)
-// 	{
-// 		perror("Error opening file");
-// 		return (1);
-// 	}
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	free(line); // Libérer la mémoire allouée pour chaque ligne
-// 	close(fd); // Fermer le fichier
-// 	return (0);
-// }
