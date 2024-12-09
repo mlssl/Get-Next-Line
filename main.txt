@@ -1,0 +1,49 @@
+cc -Wall -Wextra -Werror -D BUFFER_SIZE=4 *.c && ./a.out
+
+#include <stdlib.h>
+#include "get_next_line.h"
+#include <fcntl.h>
+#include <stdio.h>
+#include <unistd.h>
+
+void test_stdin() {
+    printf("=== Testing stdin ===\n");
+    printf("Enter lines (Ctrl+D to stop):\n");
+
+    char *line;
+    while ((line = get_next_line(0))) { // Lire sur stdin (descripteur 0)
+        printf("\nLine: %s", line);
+        free(line);
+    }
+    printf("\n=== End of stdin ===\n");
+}
+
+int main(void) {
+    test_stdin();
+    return 0;
+}
+
+
+int	main(void)
+{
+	int		fd;
+	char	*line;
+
+	fd = open("test.txt", O_RDONLY); // Ouvrir le fichier
+	if (fd < 0)
+	{
+		perror("Error opening file");
+		return (1);
+	}
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+	free(line); // Libérer la mémoire allouée pour chaque ligne
+	close(fd); // Fermer le fichier
+	return (0);
+}
