@@ -6,7 +6,7 @@
 /*   By: mlaussel <mlaussel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 10:45:15 by mlaussel          #+#    #+#             */
-/*   Updated: 2024/12/04 10:45:10 by mlaussel         ###   ########.fr       */
+/*   Updated: 2024/12/09 11:27:56 by mlaussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static char	*ft_extract_rest(char *rest, char *buffer, int fd)
 			rest = ft_strdup("");
 		temp = rest;
 		rest = ft_strjoin(rest, buffer);
+		if (rest == NULL)
+			return (NULL);
 		free(temp);
 		temp = NULL;
 		if (ft_find_end_line(rest) >= 0)
